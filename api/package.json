@@ -1,0 +1,30 @@
+{
+  "name": "musicfy",
+  "version": "0.0.1",
+  "description": "API RESTFull to handle the backend of meantify, an application similar to spotify using the mean stack",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "nodemon src/app.js"
+  },
+  "author": "Sergio Pomárico Hernández",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sdpomaricoh/musicfy.git"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "~1.16.0",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.0",
+    "dotenv": "^4.0.0",
+    "express": "~4.14.1",
+    "jwt-simple": "^0.5.1",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
+    "mongoose": "^4.9.3",
+    "mongoose-pagination": "^1.0.0",
+    "morgan": "~1.7.0"
+  }
+}
