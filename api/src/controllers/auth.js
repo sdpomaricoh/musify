@@ -14,14 +14,18 @@ authController.login = (req, res) => {
 
 
 	User.findOne({email: email.toLowerCase()}, (err, user)=>{
-		if (err) res.status(500).json({ message: 'an error has occurred', error: err})
-		if (!user) res.status(404).json({message: 'user does not exist'})
+		if (err) return res.status(500).json({ message: 'an error has occurred', error: err})
+		if (!user) return res.status(404).json({message: 'user does not exist'})
 		bcrypt.compare(password, user.password, (err, check) =>{
-			if (check) res.status(200).json({
-				message: 'success',
-				token: services.createToken(user)
-			})
-			res.status(404).json({message: 'the user could not login'})
+			if (check) {
+				user.lastLogin = Date.now()
+				user.save()
+				return res.status(200).json({
+					message: 'success',
+					token: services.createToken(user)
+				})
+			}
+			return res.status(404).json({message: 'the user could not login'})
 		})
 	})
 }

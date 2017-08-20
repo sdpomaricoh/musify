@@ -14,8 +14,10 @@ router.post('/', (req,res) => {
 /**
  * user routes
  */
-router.post('/user',userController.save)
-router.put('/user/:id',isAuth, userController.update)
+router.post('/user', userController.save)
+router.put('/user/:id', isAuth, userController.update)
+router.get('/user/:id', isAuth, userController.view)
+router.delete('/user/:id', isAuth, userController.delete)
 
 /**
  * auth routes
