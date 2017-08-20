@@ -1,5 +1,5 @@
-const mongo = require('mongoose');
-const Schema = mongo.Schema;
+const mongo = require('mongoose')
+const Schema = mongo.Schema
 
 const artistSchema = Schema({
 	name: String,
@@ -10,6 +10,6 @@ const artistSchema = Schema({
 		default: Date.now()
 	},
 	modifiedAt: Date
-});
+})
 
-module.exports = mongoose.model('Artist', artistSchema);
+module.exports = mongoose.model('Artist', artistSchema)

@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const bcrypt = require('bcrypt-nodejs')
+const Schema = mongoose.Schema
 
 const userSchema = Schema({
 	name: String,
@@ -10,13 +10,10 @@ const userSchema = Schema({
 		unique: true,
 		lowercase: true
 	},
-	password: {
-		type: String,
-		select: false
-	},
+	password: String,
 	role: {
 		type: String,
-		enum: ['administrator','user']
+		enum: ['admin','user']
 	},
 	image: String,
 	signup: {
@@ -24,24 +21,23 @@ const userSchema = Schema({
 		default: Date.now()
 	},
 	lastLogin: Date
-});
+})
 
 /**
  * encrypt password before save
  */
 userSchema.pre('save', function (next) {
+	var user = this
+	if (!user.isModified('password')) return next()
 
-	if (!this.isModified('password')) return next();
+	bcrypt.genSalt(10, function(err, salt) {
+		if (err) return next(err)
+		bcrypt.hash(user.password, salt, null , function (err, hash) {
+			if (err) return next(err)
+			user.password = hash
+			next()
+		})
+	})
+})
 
-	bcrypt.genSalt(10, (err, salt)=>{
-		if (err) return next(err);
-		bcrypt.hash(this.password, salt, null, (err, hash)=>{
-			if (err) return next(err);
-			this.password = hash;
-			next();
-		});
-	});
-	return next();
-});
-
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema)

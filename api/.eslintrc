@@ -72,7 +72,7 @@
         "prefer-const": 2,
         "prefer-template": 2,
         "quotes": [2, single, avoid-escape],
-        "semi": [2, "always"],
+        "semi": [2, "never"],
         "space-before-blocks": 2,
         "strict": [2, global],
         "use-isnan": 2,

@@ -1,5 +1,5 @@
-const mongo = require('mongoose');
-const Schema = mongo.Schema;
+const mongo = require('mongoose')
+const Schema = mongo.Schema
 
 const songSchema = Schema({
 	number: Number,
@@ -15,6 +15,6 @@ const songSchema = Schema({
 		default: Date.now()
 	},
 	modifiedAt: Date
-});
+})
 
-module.exports = mongoose.model('Song', songSchema);
+module.exports = mongoose.model('Song', songSchema)

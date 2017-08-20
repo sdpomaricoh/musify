@@ -1,5 +1,5 @@
-const mongo = require('mongoose');
-const Schema = mongo.Schema;
+const mongo = require('mongoose')
+const Schema = mongo.Schema
 
 const albumSchema = Schema({
 	title: String,
@@ -15,6 +15,6 @@ const albumSchema = Schema({
 		default: Date.now()
 	},
 	modifiedAt: Date
-});
+})
 
-module.exports = mongoose.model('Album', albumSchema);
+module.exports = mongoose.model('Album', albumSchema)
