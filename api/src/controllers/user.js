@@ -40,4 +40,17 @@ userController.save = (req,res) => {
 	})
 }
 
+userController.update = (req,res) => {
+	var userId = req.params.id
+	var update = req.body
+	User.findByIdAndUpdate(userId,update, (err, userUpdate) => {
+		if (err) res.status(500).json({message:'error updating user'})
+		if (!userUpdate) res.status(404).json({message:'failed to update user'})
+		res.status(200).json({
+			message: 'user successfully updated',
+			user: userUpdate
+		})
+	})
+}
+
 module.exports = userController

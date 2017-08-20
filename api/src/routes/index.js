@@ -1,7 +1,7 @@
 const express = require('express')
 const userController = require('../controllers/user')
 const authController = require('../controllers/auth')
-// const isAuth = require('../middleware/auth.js')
+const isAuth = require('../middleware/auth.js')
 const router = express.Router()
 
 router.post('/', (req,res) => {
@@ -14,7 +14,8 @@ router.post('/', (req,res) => {
 /**
  * user routes
  */
-router.route('/user').post(userController.save)
+router.post('/user',userController.save)
+router.put('/user/:id',isAuth, userController.update)
 
 /**
  * auth routes
