@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const services = require('../services')
 const userController = {}
 
 userController.save = (req,res) => {
@@ -25,14 +26,15 @@ userController.save = (req,res) => {
 	user.save((err, userStored)=>{
 
 		if (err)
-			return res.status(500).json({message: 'error to create user', error: err})
+			res.status(500).json({message: 'error to create user', error: err})
 		else
 			if (!userStored)
-				return res.status(404).json({message: 'user not registered'})
+				res.status(404).json({message: 'user not registered'})
 
-		return res.status(200).json({
+		res.status(200).json({
 			message: 'user created successfully',
-			user: userStored
+			user: userStored,
+			token: services.createToken(userStored)
 		})
 
 	})
