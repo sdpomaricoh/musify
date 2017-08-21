@@ -1,8 +1,14 @@
 const express = require('express')
+const multipart = require('connect-multiparty')
 const userController = require('../controllers/user')
 const authController = require('../controllers/auth')
 const isAuth = require('../middleware/auth.js')
 const router = express.Router()
+
+const path = require('path')
+const uploadDir = path.resolve( __dirname,'../../uploads/users')
+const mpMiddleware = multipart({uploadDir: uploadDir})
+
 
 router.post('/', (req,res) => {
 	res.status(200)
@@ -18,6 +24,8 @@ router.post('/user', userController.save)
 router.put('/user/:id', isAuth, userController.update)
 router.get('/user/:id', isAuth, userController.view)
 router.delete('/user/:id', isAuth, userController.delete)
+router.post('/user/upload/:id', isAuth, mpMiddleware, userController.uploadImage)
+router.get('/user/image/:imageFile', isAuth, userController.getImageFile)
 
 /**
  * auth routes
