@@ -37,4 +37,16 @@ artistController.save = (req, res) =>{
 
 }
 
+artistController.view = (req, res) =>{
+	const artistId = req.params.id
+	Artist.findById(artistId,(err, artist)=>{
+		if (err) return res.status(500).json({message:`error: ${err}`})
+		if (!artist) return res.status(404).json({message:'artist not found'})
+		res.status(200).json({
+			message: 'success',
+			artist: artist
+		})
+	})
+}
+
 module.exports = artistController

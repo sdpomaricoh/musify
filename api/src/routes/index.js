@@ -32,6 +32,7 @@ router.get('/user/image/:imageFile', isAuth, userController.getImageFile)
  * user routes
  */
 router.post('/artist', artistController.save)
+router.get('/artist/:id', artistController.view)
 
 
 /**
