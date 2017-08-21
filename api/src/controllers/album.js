@@ -4,6 +4,7 @@ const pagination = require('mongoose-pagination')
 
 const Album = require('../models/album')
 const Song = require('../models/song')
+const Artist = require('../models/artist')
 
 const albumController = {}
 
@@ -36,6 +37,43 @@ albumController.save = (req, res) => {
 			user: albumStored
 		})
 	})
+}
+
+albumController.view = (req, res) => {
+	const albumId = req.params.id
+	Album.findById(albumId).populate({path: 'artist'}).exec((err,album)=>{
+		if (err)
+			return res.status(500).json({message:`error: ${err}`})
+		else
+			if (!album) return res.status(404).json({message:'album not found'})
+		res.status(200).json({
+			message: 'success',
+			album: album
+		})
+	})
+}
+
+albumController.all = (req, res) => {
+	const artistId = req.params.artistId
+	let find = null
+
+	if (!artistId)
+		find = Album.find({}).sort('title')
+	else
+		find = Album.find({artist: artistId}).sort('year')
+
+	find.populate({path: 'artist'}).exec((err,albums)=>{
+		if (err)
+			return res.status(500).json({message:`error: ${err}`})
+		else
+			if (!albums) return res.status(404).json({message:'albums not found'})
+
+		res.status(200).json({
+			message: 'success',
+			albums: albums
+		})
+	})
+
 }
 
 module.exports = albumController

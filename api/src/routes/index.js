@@ -47,6 +47,8 @@ router.get('/artist/image/:imageFile', isAuth, artistController.getImageFile)
  * album routes
  */
 router.post('/album', isAuth, albumController.save)
+router.get('/album/:id', isAuth, albumController.view)
+router.get('/albums/:artistId?', isAuth, albumController.all)
 
 /**
  * auth routes
