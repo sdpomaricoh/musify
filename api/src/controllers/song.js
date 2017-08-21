@@ -110,4 +110,24 @@ songController.update = (req, res) => {
 	})
 }
 
+songController.delete = (req, res) => {
+	const songId = req.params.id
+	Song.findByIdAndRemove(songId, (err, songRemoved)=>{
+		if (err) return res.status(500).json({
+			message: 'error deleting song',
+			error: err
+		})
+		else
+			if (!songRemoved) return res.status(404).json({
+				message:'the songs could not be removed',
+				error: 'song not found'
+			})
+
+		res.status(200).json({
+			message: 'song successfully removed',
+			artist: songRemoved
+		})
+	})
+}
+
 module.exports = songController

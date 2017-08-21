@@ -64,6 +64,7 @@ router.post('/song', isAuth, songController.save)
 router.get('/song/:id', isAuth, songController.view)
 router.get('/songs/:albumId?', isAuth, songController.all)
 router.put('/song/:id', isAuth, songController.update)
+router.delete('/song/:id', isAuth, songController.delete)
 
 /**
  * auth routes
