@@ -43,4 +43,47 @@ songController.save = (req,res) => {
 	})
 }
 
+songController.view = (req, res) => {
+	const songId = req.params.id
+	Song.findById(songId).populate({path: 'album'}).exec((err,song)=>{
+		if (err)
+			return res.status(500).json({message:`error: ${err}`})
+		else
+			if (!song) return res.status(404).json({message:'song not found'})
+		res.status(200).json({
+			message: 'success',
+			song: song
+		})
+	})
+}
+
+songController.all = (req, res) => {
+	const albumId = req.params.id
+	let find = null
+
+	if (!albumId)
+		find = Song.find({}).sort('title')
+	else
+		find = Song.find({album: albumId}).sort('number')
+
+	find.populate({
+		path: 'album',
+		populate: {
+			path: 'artist',
+			model: 'Artist'
+		}
+	}).exec((err,songs)=>{
+		if (err)
+			return res.status(500).json({message:`error: ${err}`})
+		else
+			if (!songs) return res.status(404).json({message:'songs not found'})
+
+		res.status(200).json({
+			message: 'success',
+			songs: songs
+		})
+	})
+
+}
+
 module.exports = songController

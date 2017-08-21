@@ -61,6 +61,8 @@ router.get('/album/image/:imageFile', isAuth, albumController.getImageFile)
  * song routes
  */
 router.post('/song', isAuth, songController.save)
+router.get('/song/:id', isAuth, songController.view)
+router.get('/songs/:albumId?', isAuth, songController.all)
 
 /**
  * auth routes
