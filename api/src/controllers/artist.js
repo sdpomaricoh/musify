@@ -42,7 +42,8 @@ artistController.view = (req, res) =>{
 	const artistId = req.params.id
 	Artist.findById(artistId,(err, artist)=>{
 		if (err) return res.status(500).json({message:`error: ${err}`})
-		if (!artist) return res.status(404).json({message:'artist not found'})
+		else
+			if (!artist) return res.status(404).json({message:'artist not found'})
 		res.status(200).json({
 			message: 'success',
 			artist: artist
@@ -77,17 +78,16 @@ artistController.update = (req, res) =>{
 	const artistId = req.params.id
 	const update = req.body
 
-	console.log(update)
-
 	Artist.findByIdAndUpdate(artistId, update, (err, artistUpdated) => {
 		if (err) return res.status(500).json({
 			message:'error updating artist',
 			error: err
 		})
-		if (!artistUpdated) return res.status(404).json({
-			message:'failed to update artist',
-			error: 'artist not found'
-		})
+		else
+			if (!artistUpdated) return res.status(404).json({
+				message:'failed to update artist',
+				error: 'artist not found'
+			})
 		res.status(200).json({
 			message: 'artist successfully updated',
 			artist: artistUpdated
@@ -95,5 +95,50 @@ artistController.update = (req, res) =>{
 	})
 }
 
+
+artistController.delete = (req, res) =>{
+	const artistId = req.params.id
+
+	Artist.findByIdAndRemove(artistId, (err, artistRemoved) => {
+		if (err) return res.status(500).json({
+			message: 'error deleting artist',
+			error: err
+		})
+		else
+			if (!artistRemoved) return res.status(404).json({
+				message:'the artist could not be removed',
+				error: 'artist not found'
+			})
+
+		Album.find({artist: artistRemoved._id}).remove((err,albumRemoved)=> {
+			if (err) return res.status(500).json({
+				message: 'error deleting album',
+				error: err
+			})
+			else
+				if (!albumRemoved) return res.status(404).json({
+					message:'The album could not be removed',
+					error: 'album not found'
+				})
+			Song.find({album: albumRemoved._id}).remove((err,songRemoved)=> {
+				if (err) return res.status(500).json({
+					message: 'error deleting songs',
+					error: err
+				})
+				else
+					if (!songRemoved) return res.status(404).json({
+						message:'the songs could not be removed',
+						error: 'songs not found'
+					})
+
+				res.status(200).json({
+					message: 'artist successfully removed',
+					artist: artistRemoved
+				})
+			})
+		})
+	})
+
+}
 
 module.exports = artistController

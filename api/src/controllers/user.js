@@ -50,10 +50,11 @@ userController.update = (req,res) => {
 			message:'error updating user',
 			error: err
 		})
-		if (!userUpdate) return res.status(404).json({
-			message:'failed to update user',
-			error: 'user not found'
-		})
+		else
+			if (!userUpdate) return res.status(404).json({
+				message:'failed to update user',
+				error: 'user not found'
+			})
 		res.status(200).json({
 			message: 'user successfully updated',
 			user: userUpdated
@@ -65,7 +66,8 @@ userController.view = (req, res) =>{
 	const userId = req.params.id
 	User.findById(userId,(err, user)=>{
 		if (err) return res.status(500).json({message:`error: ${err}`})
-		if (!user) return res.status(404).json({message:'user not found'})
+		else
+			if (!user) return res.status(404).json({message:'user not found'})
 		res.status(200).json({
 			message: 'success',
 			user: user
@@ -106,10 +108,11 @@ userController.uploadImage = (req, res) => {
 					message:'error updating user',
 					error: err
 				})
-				if (!userUpdate) return res.status(404).json({
-					message:'failed to update user',
-					error: 'user not found'
-				})
+				else
+					if (!userUpdate) return res.status(404).json({
+						message:'failed to update user',
+						error: 'user not found'
+					})
 				res.status(200).json({
 					message: 'user successfully updated',
 					user: userUpdate

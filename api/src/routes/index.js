@@ -35,6 +35,7 @@ router.post('/artist', isAuth, artistController.save)
 router.get('/artist/:id', isAuth, artistController.view)
 router.get('/artists/:page?', isAuth, artistController.all)
 router.put('/artist/:id', isAuth, artistController.update)
+router.delete('/artist/:id', isAuth, artistController.delete)
 
 
 /**
