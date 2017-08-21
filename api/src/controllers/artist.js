@@ -73,6 +73,27 @@ artistController.all = (req, res) =>{
 	})
 }
 
+artistController.update = (req, res) =>{
+	const artistId = req.params.id
+	const update = req.body
+
+	console.log(update)
+
+	Artist.findByIdAndUpdate(artistId, update, (err, artistUpdated) => {
+		if (err) return res.status(500).json({
+			message:'error updating artist',
+			error: err
+		})
+		if (!artistUpdated) return res.status(404).json({
+			message:'failed to update artist',
+			error: 'artist not found'
+		})
+		res.status(200).json({
+			message: 'artist successfully updated',
+			artist: artistUpdated
+		})
+	})
+}
 
 
 module.exports = artistController

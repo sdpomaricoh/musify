@@ -45,7 +45,7 @@ userController.save = (req,res) => {
 userController.update = (req,res) => {
 	const userId = req.params.id
 	const update = req.body
-	User.findByIdAndUpdate(userId,update, (err, userUpdate) => {
+	User.findByIdAndUpdate(userId,update, (err, userUpdated) => {
 		if (err) return res.status(500).json({
 			message:'error updating user',
 			error: err
@@ -56,7 +56,7 @@ userController.update = (req,res) => {
 		})
 		res.status(200).json({
 			message: 'user successfully updated',
-			user: userUpdate
+			user: userUpdated
 		})
 	})
 }
