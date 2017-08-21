@@ -135,4 +135,51 @@ albumController.delete = (req, res) => {
 
 }
 
+albumController.uploadImage = (req, res) => {
+	const albumId = req.params.id
+	const imageType = ['png','jpg','gif','bmp','jpeg']
+
+	if (req.files) {
+		const filePath = req.files.image.path
+		const fileName = filePath.substring(filePath.lastIndexOf('/')+1)
+		const fileType = req.files.image.type.split('/')
+		const imgExt = fileType[1]
+
+		if (imageType.indexOf(imgExt) !== -1)
+			Album.findByIdAndUpdate(albumId, {image: fileName}, (err, albumUpdated) => {
+				if (err) return res.status(500).json({
+					message:'error updating album',
+					error: err
+				})
+				else
+					if (!albumUpdated) return res.status(404).json({
+						message:'failed to update album',
+						error: 'album not found'
+					})
+				res.status(200).json({
+					message: 'album successfully updated',
+					album: albumUpdated
+				})
+			})
+		else
+			return res.status(200).json({message: 'invalid file'})
+	} else
+		return res.status(200).json({message: 'Has not uploaded a image'})
+}
+
+albumController.getImageFile = (req, res) => {
+
+	const imageFile = req.params.imageFile
+	const uploadDir = path.resolve( __dirname,'../../uploads/albums')
+	const pathFile = `${uploadDir}/${imageFile}`
+
+	fs.exists(pathFile, (exists) =>{
+		if (exists)
+			res.sendFile(path.resolve(pathFile))
+		else
+			return res.status(404).json({message:'image not found'})
+
+	})
+}
+
 module.exports = albumController

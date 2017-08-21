@@ -14,6 +14,8 @@ const mpUserMiddleware = multipart({uploadDir: userUploadDir})
 const artistUploadDir = path.resolve( __dirname,'../../uploads/artists')
 const mpArtistMiddleware = multipart({uploadDir: artistUploadDir})
 
+const albumUploadDir = path.resolve( __dirname,'../../uploads/albums')
+const mpAlbumMiddleware = multipart({uploadDir: albumUploadDir})
 
 router.post('/', (req,res) => {
 	res.status(200)
@@ -51,6 +53,8 @@ router.get('/album/:id', isAuth, albumController.view)
 router.get('/albums/:artistId?', isAuth, albumController.all)
 router.put('/album/:id', isAuth, albumController.update)
 router.delete('/album/:id', isAuth, albumController.delete)
+router.post('/album/upload/:id', [isAuth, mpAlbumMiddleware], albumController.uploadImage)
+router.get('/album/image/:imageFile', isAuth, albumController.getImageFile)
 
 /**
  * auth routes
