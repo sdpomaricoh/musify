@@ -90,8 +90,7 @@ artistController.update = (req, res) =>{
 				message:'failed to update artist',
 				error: 'artist not found'
 			})
-		user.lastLogin = Date.now()
-		user.save()
+
 		res.status(200).json({
 			message: 'artist successfully updated',
 			artist: artistUpdated

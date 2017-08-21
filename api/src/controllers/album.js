@@ -34,7 +34,7 @@ albumController.save = (req, res) => {
 				return res.status(404).json({message: 'album not saved'})
 		return res.status(200).json({
 			message: 'album created successfully',
-			user: albumStored
+			album: albumStored
 		})
 	})
 }
@@ -74,6 +74,32 @@ albumController.all = (req, res) => {
 		})
 	})
 
+}
+
+albumController.update = (req, res) => {
+
+	const albumId = req.params.id
+	const update = req.body
+	update.modifiedAt = Date.now()
+
+	console.log(update)
+
+	Album.findByIdAndUpdate(albumId, update, (err, albumUpdated) => {
+		if (err) return res.status(500).json({
+			message:'error updating album',
+			error: err
+		})
+		else
+			if (!albumUpdated) return res.status(404).json({
+				message:'failed to update album',
+				error: 'album not found'
+			})
+
+		res.status(200).json({
+			message: 'album successfully updated',
+			album: albumUpdated
+		})
+	})
 }
 
 module.exports = albumController

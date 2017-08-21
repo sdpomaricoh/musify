@@ -55,6 +55,9 @@ userController.update = (req,res) => {
 				message:'failed to update user',
 				error: 'user not found'
 			})
+
+		user.lastLogin = Date.now()
+		user.save()
 		res.status(200).json({
 			message: 'user successfully updated',
 			user: userUpdated
