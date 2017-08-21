@@ -32,7 +32,7 @@ app.use(cookieParser())
 /**
  * config headers to use rest method
  */
-app.use((req,res,netx)=>{
+app.use((req,res,next)=>{
 	res.header('Access-Control-Allow-Origin', '*')
 	res.header(
 		'Access-Control-Allow-Headers',

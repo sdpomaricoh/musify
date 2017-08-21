@@ -4,6 +4,7 @@ const userController = require('../controllers/user')
 const authController = require('../controllers/auth')
 const artistController = require('../controllers/artist')
 const albumController = require('../controllers/album')
+const songController = require('../controllers/song')
 const isAuth = require('../middleware/auth.js')
 const router = express.Router()
 
@@ -55,6 +56,11 @@ router.put('/album/:id', isAuth, albumController.update)
 router.delete('/album/:id', isAuth, albumController.delete)
 router.post('/album/upload/:id', [isAuth, mpAlbumMiddleware], albumController.uploadImage)
 router.get('/album/image/:imageFile', isAuth, albumController.getImageFile)
+
+/**
+ * song routes
+ */
+router.post('/song', isAuth, songController.save)
 
 /**
  * auth routes
