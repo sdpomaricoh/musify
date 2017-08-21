@@ -50,6 +50,7 @@ router.post('/album', isAuth, albumController.save)
 router.get('/album/:id', isAuth, albumController.view)
 router.get('/albums/:artistId?', isAuth, albumController.all)
 router.put('/album/:id', isAuth, albumController.update)
+router.delete('/album/:id', isAuth, albumController.delete)
 
 /**
  * auth routes

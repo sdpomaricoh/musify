@@ -102,4 +102,37 @@ albumController.update = (req, res) => {
 	})
 }
 
+albumController.delete = (req, res) => {
+
+	const albumId = req.params.id
+	Album.findByIdAndRemove(albumId , (err,albumRemoved)=> {
+		if (err) return res.status(500).json({
+			message: 'error deleting album',
+			error: err
+		})
+		else
+			if (!albumRemoved) return res.status(404).json({
+				message:'The album could not be removed',
+				error: 'album not found'
+			})
+		Song.find({album: albumRemoved._id}).remove((err,songRemoved)=> {
+			if (err) return res.status(500).json({
+				message: 'error deleting songs',
+				error: err
+			})
+			else
+				if (!songRemoved) return res.status(404).json({
+					message:'the songs could not be removed',
+					error: 'songs not found'
+				})
+
+			res.status(200).json({
+				message: 'album successfully removed',
+				artist: albumRemoved
+			})
+		})
+	})
+
+}
+
 module.exports = albumController
