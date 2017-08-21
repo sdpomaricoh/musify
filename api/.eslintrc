@@ -10,7 +10,7 @@
         "callback-return": 2,
         "camelcase": 2,
         "comma-dangle": [2, never],
-        "complexity": [2, 8],
+        "complexity": [2, 12],
         "curly": ["error", "multi"],
         "dot-location": [2, property],
         "dot-notation": 2,

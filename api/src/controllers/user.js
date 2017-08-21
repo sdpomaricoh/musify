@@ -20,7 +20,7 @@ userController.save = (req,res) => {
 	user.image = null
 	user.lastLogin = null
 
-	if (user.name === '' && user.email === '' && user.password === '')
+	if (user.name === '' || user.email === '' || user.password === '')
 		return res.status(202).json({
 			message: 'a name, email or password must be provided'
 		})

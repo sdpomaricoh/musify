@@ -3,6 +3,7 @@ const multipart = require('connect-multiparty')
 const userController = require('../controllers/user')
 const authController = require('../controllers/auth')
 const artistController = require('../controllers/artist')
+const albumController = require('../controllers/album')
 const isAuth = require('../middleware/auth.js')
 const router = express.Router()
 
@@ -42,6 +43,10 @@ router.delete('/artist/:id', isAuth, artistController.delete)
 router.post('/artist/upload/:id', [isAuth, mpArtistMiddleware], artistController.uploadImage)
 router.get('/artist/image/:imageFile', isAuth, artistController.getImageFile)
 
+/**
+ * album routes
+ */
+router.post('/album', isAuth, albumController.save)
 
 /**
  * auth routes

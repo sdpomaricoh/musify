@@ -19,7 +19,7 @@ artistController.save = (req, res) =>{
 	artist.description = req.body.description
 	artist.image = null
 
-	if (artist.name === '' && artist.description === '')
+	if (artist.name === '' || artist.description === '')
 		return res.status(202).json({
 			message: 'a name or description must be provided'
 		})
@@ -75,8 +75,10 @@ artistController.all = (req, res) =>{
 }
 
 artistController.update = (req, res) =>{
+
 	const artistId = req.params.id
 	const update = req.body
+	update.modifiedAt = Date.now()
 
 	Artist.findByIdAndUpdate(artistId, update, (err, artistUpdated) => {
 		if (err) return res.status(500).json({
@@ -88,6 +90,8 @@ artistController.update = (req, res) =>{
 				message:'failed to update artist',
 				error: 'artist not found'
 			})
+		user.lastLogin = Date.now()
+		user.save()
 		res.status(200).json({
 			message: 'artist successfully updated',
 			artist: artistUpdated
