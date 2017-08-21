@@ -1,5 +1,5 @@
-const mongo = require('mongoose')
-const Schema = mongo.Schema
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const songSchema = Schema({
 	number: Number,

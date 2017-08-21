@@ -1,9 +1,9 @@
-const mongo = require('mongoose')
-const Schema = mongo.Schema
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const artistSchema = Schema({
 	name: String,
-	lastname: String,
+	description: String,
 	image: String,
 	createAt: {
 		type: Date,
