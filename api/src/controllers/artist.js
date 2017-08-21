@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const pagination = require('mongoose-pagination')
 
 const Artist = require('../models/artist')
 const Album = require('../models/album')
@@ -48,5 +49,30 @@ artistController.view = (req, res) =>{
 		})
 	})
 }
+
+
+artistController.all = (req, res) =>{
+
+	var page = null
+
+	if (req.params.page) page = req.params.page
+	else page = 1
+
+	const itemsPerPage = 5
+
+	Artist.find().sort('name').paginate(page, itemsPerPage, (err, artists, total)=>{
+		if (err)
+			return res.status(500).json({message: 'error to get page', error: err})
+		else
+			if (!artists) return res.status(404).json({message: 'no artists to show'})
+
+		res.status(200).json({
+			total: total,
+			artists: artists
+		})
+	})
+}
+
+
 
 module.exports = artistController
