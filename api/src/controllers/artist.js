@@ -141,4 +141,51 @@ artistController.delete = (req, res) =>{
 
 }
 
+
+artistController.uploadImage = (req, res) => {
+	const artistId = req.params.id
+	const imageType = ['png','jpg','gif','bmp','jpeg']
+
+	if (req.files) {
+		const filePath = req.files.image.path
+		const fileName = filePath.substring(filePath.lastIndexOf('/')+1)
+		const fileType = req.files.image.type.split('/')
+		const imgExt = fileType[1]
+
+		if (imageType.indexOf(imgExt) !== -1)
+			Artist.findByIdAndUpdate(artistId, {image: fileName}, (err, artistUpdated) => {
+				if (err) return res.status(500).json({
+					message:'error updating artist',
+					error: err
+				})
+				else
+					if (!artistUpdated) return res.status(404).json({
+						message:'failed to update artist',
+						error: 'artist not found'
+					})
+				res.status(200).json({
+					message: 'artist successfully updated',
+					artist: artistUpdated
+				})
+			})
+		else
+			return res.status(200).json({message: 'invalid file'})
+	} else
+		return res.status(200).json({message: 'Has not uploaded a image'})
+}
+
+artistController.getImageFile = (req, res) => {
+	const imageFile = req.params.imageFile
+	const uploadDir = path.resolve( __dirname,'../../uploads/artists')
+	const pathFile = `${uploadDir}/${imageFile}`
+
+	fs.exists(pathFile, (exists) =>{
+		if (exists)
+			res.sendFile(path.resolve(pathFile))
+		else
+			return res.status(404).json({message:'image not found'})
+
+	})
+}
+
 module.exports = artistController

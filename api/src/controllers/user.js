@@ -103,19 +103,19 @@ userController.uploadImage = (req, res) => {
 		const imgExt = fileType[1]
 
 		if (imageType.indexOf(imgExt) !== -1)
-			User.findByIdAndUpdate(userId, {image: fileName}, (err, userUpdate) => {
+			User.findByIdAndUpdate(userId, {image: fileName}, (err, userUpdated) => {
 				if (err) return res.status(500).json({
 					message:'error updating user',
 					error: err
 				})
 				else
-					if (!userUpdate) return res.status(404).json({
+					if (!userUpdated) return res.status(404).json({
 						message:'failed to update user',
 						error: 'user not found'
 					})
 				res.status(200).json({
 					message: 'user successfully updated',
-					user: userUpdate
+					user: userUpdated
 				})
 			})
 		else
