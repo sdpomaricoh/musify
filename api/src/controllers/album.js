@@ -82,8 +82,6 @@ albumController.update = (req, res) => {
 	const update = req.body
 	update.modifiedAt = Date.now()
 
-	console.log(update)
-
 	Album.findByIdAndUpdate(albumId, update, (err, albumUpdated) => {
 		if (err) return res.status(500).json({
 			message:'error updating album',

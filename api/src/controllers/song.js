@@ -86,4 +86,28 @@ songController.all = (req, res) => {
 
 }
 
+songController.update = (req, res) => {
+
+	const songId = req.params.id
+	const update = req.body
+	update.modifiedAt = Date.now()
+
+	Album.findByIdAndUpdate(songId, update, (err, songUpdated) => {
+		if (err) return res.status(500).json({
+			message:'error updating song',
+			error: err
+		})
+		else
+			if (!songUpdated) return res.status(404).json({
+				message:'failed to update song',
+				error: 'song not found'
+			})
+
+		res.status(200).json({
+			message: 'song successfully updated',
+			song: songUpdated
+		})
+	})
+}
+
 module.exports = songController
