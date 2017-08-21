@@ -29,6 +29,19 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 
+/**
+ * config headers to use rest method
+ */
+app.use((req,res,netx)=>{
+	res.header('Access-Control-Allow-Origin', '*')
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method'
+	)
+	res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+	res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE')
+	next()
+})
 
 /**
  *import routes

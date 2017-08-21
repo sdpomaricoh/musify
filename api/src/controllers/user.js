@@ -118,7 +118,8 @@ userController.uploadImage = (req, res) => {
 					})
 				res.status(200).json({
 					message: 'user successfully updated',
-					user: userUpdated
+					user: userUpdated,
+					file: fileName
 				})
 			})
 		else
