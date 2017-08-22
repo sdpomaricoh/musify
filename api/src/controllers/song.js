@@ -130,4 +130,53 @@ songController.delete = (req, res) => {
 	})
 }
 
+songController.uploadAudio = (req, res) => {
+	const songId = req.params.id
+	const audioType = ['mp3','ogg']
+
+	if (req.files) {
+		const filePath = req.files.file.path
+		const fileName = filePath.substring(filePath.lastIndexOf('/')+1)
+		const fileType = req.files.file.type.split('/')
+		const audioExt = fileType[1]
+
+		if (audioType.indexOf(audioExt) !== -1)
+			Song.findByIdAndUpdate(songId, {file: fileName}, (err, songUpdated) => {
+				if (err) return res.status(500).json({
+					message:'error updating song',
+					error: err
+				})
+				else
+					if (!songUpdated) return res.status(404).json({
+						message:'failed to update song',
+						error: 'song not found'
+					})
+				res.status(200).json({
+					message: 'song successfully updated',
+					song: songUpdated
+				})
+			})
+		else
+			return res.status(200).json({message: 'invalid file'})
+	} else
+		return res.status(200).json({message: 'Has not uploaded a audio file'})
+}
+
+
+songController.getAudioFile = (req, res) => {
+
+	const audioFile = req.params.audioFile
+	const uploadDir = path.resolve( __dirname,'../../uploads/songs')
+	const pathFile = `${uploadDir}/${audioFile}`
+
+	fs.exists(pathFile, (exists) =>{
+		if (exists)
+			res.sendFile(path.resolve(pathFile))
+		else
+			return res.status(404).json({message:'audio not found'})
+
+	})
+}
+
+
 module.exports = songController

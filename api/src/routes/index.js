@@ -18,6 +18,9 @@ const mpArtistMiddleware = multipart({uploadDir: artistUploadDir})
 const albumUploadDir = path.resolve( __dirname,'../../uploads/albums')
 const mpAlbumMiddleware = multipart({uploadDir: albumUploadDir})
 
+const songUploadDir = path.resolve( __dirname,'../../uploads/songs')
+const mpSongMiddleware = multipart({uploadDir: songUploadDir})
+
 router.post('/', (req,res) => {
 	res.status(200)
 	.json(
@@ -65,6 +68,8 @@ router.get('/song/:id', isAuth, songController.view)
 router.get('/songs/:albumId?', isAuth, songController.all)
 router.put('/song/:id', isAuth, songController.update)
 router.delete('/song/:id', isAuth, songController.delete)
+router.post('/song/upload/:id', [isAuth, mpSongMiddleware], songController.uploadAudio)
+router.get('/song/image/:audioFile', isAuth, songController.getAudioFile)
 
 /**
  * auth routes
