@@ -21,7 +21,7 @@ const mpAlbumMiddleware = multipart({uploadDir: albumUploadDir})
 const songUploadDir = path.resolve( __dirname,'../../uploads/songs')
 const mpSongMiddleware = multipart({uploadDir: songUploadDir})
 
-router.post('/', (req,res) => {
+router.get('/', (req,res) => {
 	res.status(200)
 	.json(
 		{message:'welcome to musify service'}
